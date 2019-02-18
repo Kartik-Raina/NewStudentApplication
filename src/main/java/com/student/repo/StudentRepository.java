@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.student.model.Student;
 
-public interface StudentRepository extends CrudRepository<Student, Integer> {
+public interface StudentRepository extends CrudRepository<Student, Long> {
 
 }

@@ -2,6 +2,7 @@ package com.student.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,10 @@ public class StudentController {
 	}
 
 	@DeleteMapping("/students/{id}")
-	public void deleteStudent(@PathVariable long id) {
+	public ResponseEntity<Object> deleteStudent(@PathVariable long id) {
 		studentRepository.deleteById(id);
+
+		return ResponseEntity.ok().build();
 	}
 
 	@PostMapping("/students")
@@ -56,19 +59,23 @@ public class StudentController {
 
 	}
 
-	@PutMapping("/students/{id}")
-	public ResponseEntity<Object> updateStudent(@RequestBody Student student, @PathVariable long id) {
+	@PutMapping("/students/{roleNumber}")
+	public ResponseEntity<Object> updateStudent(@RequestBody Student student, @PathVariable Long roleNumber) {
 
-		Optional<Student> studentOptional = studentRepository.findById(id);
+		Student std = studentRepository.findStudentByRoleNumber(roleNumber);
 
-		if (!studentOptional.isPresent())
-			return ResponseEntity.notFound().build();
+		if (Objects.isNull(std))
+			// return ResponseEntity.notFound().build();
+			throw new StudentNotFoundException("Role_Number-" + roleNumber);
 
-		student.setId(id);
+		// student.setId(std.getId());
+		std.setFirstName(student.getFirstName());
+		std.setLastName(student.getLastName());
+		std.setRoleNumber(student.getRoleNumber());
 
-		studentRepository.save(student);
+		studentRepository.save(std);
 
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok().build();
 	}
 
 }

@@ -1,18 +1,52 @@
 package com.student.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity // This tells Hibernate to make a table out of this class
 public class Student {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonIgnore
 	private Long id;
-	private String first_name;
-	private String last_name;
-	private String role_number;
+
+	@Column(name = "first_name")
+	private String firstName;
+
+	@Column(name = "last_name")
+	private String lastName;
+
+	@Column(name = "role_number")
+	private Long roleNumber;
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public Long getRoleNumber() {
+		return roleNumber;
+	}
+
+	public void setRoleNumber(Long roleNumber) {
+		this.roleNumber = roleNumber;
+	}
 
 	public Long getId() {
 		return id;
@@ -22,28 +56,9 @@ public class Student {
 		this.id = id;
 	}
 
-	public String getFirst_name() {
-		return first_name;
+	@Override
+	public String toString() {
+		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", roleNumber="
+				+ roleNumber + "]";
 	}
-
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
-	}
-
-	public String getLast_name() {
-		return last_name;
-	}
-
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
-	}
-
-	public String getRole_number() {
-		return role_number;
-	}
-
-	public void setRole_number(String role_number) {
-		this.role_number = role_number;
-	}
-
 }
